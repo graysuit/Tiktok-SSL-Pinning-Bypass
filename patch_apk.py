@@ -230,7 +230,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Remove ssl pining from tiktok app')
     parser.add_argument("-i", "--input", type=str,
-                        help="Input apk file.", required=True)
+                        help="Input apk file.")
     parser.add_argument("-o", "--output", type=str,
                         help="Output apk file.", default=DEFAULT_OUTPUT_NAME)
     parser.add_argument("--keystore", type=str,
@@ -242,7 +242,8 @@ def main():
     
 
     args = parser.parse_args()
-    inputfile = args.input
+    APK = "https://r2-static-assets.androidapksfree.com/sdata/3c84a5baa669a3bf57e63e2f516bf49c/com.zhiliaoapp.musically.go_v19.0.3-190003_Android-4.1.apk"
+    inputfile = download_file(APK, "tiktok.lite.apk")
     outputfile = args.output
     keyalias = args.keyalias
     storepass = args.storepass
