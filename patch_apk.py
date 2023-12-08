@@ -112,6 +112,7 @@ def get_arch(apk):
 def copy_apk_to_temp_folder(apk_path):
     filepath = os.path.join(TEMP_FOLDER, "app.apk")
     shutil.copy(apk_path, filepath)
+    os.system(f"ls {TEMP_FOLDER}")
     return filepath
 
 
@@ -233,7 +234,6 @@ def main():
     APK = "https://r2-static-assets.androidapksfree.com/sdata/3c84a5baa669a3bf57e63e2f516bf49c/com.zhiliaoapp.musically.go_v19.0.3-190003_Android-4.1.apk"
     inputfile = download_file(APK)
     print(inputfile)
-    os.system("ls")
     outputfile = args.output
     keyalias = args.keyalias
     storepass = args.storepass
@@ -244,7 +244,6 @@ def main():
     
     create_temp_folder()
     temp_apk = copy_apk_to_temp_folder(inputfile)
-    print(temp_apk)
 
     archs = get_arch(temp_apk)
     if len(archs) == 0:
