@@ -232,6 +232,7 @@ def main():
     args = parser.parse_args()
     APK = "https://r2-static-assets.androidapksfree.com/sdata/3c84a5baa669a3bf57e63e2f516bf49c/com.zhiliaoapp.musically.go_v19.0.3-190003_Android-4.1.apk"
     inputfile = download_file(APK)
+    os.system("ls")
     outputfile = args.output
     keyalias = args.keyalias
     storepass = args.storepass
