@@ -115,25 +115,14 @@ def copy_apk_to_temp_folder(apk_path):
     return filepath
 
 
-def download_file(url, filename):
-    filepath = os.path.join(TEMP_FOLDER, filename)
-    with open(filepath, "wb") as f:
-        print("Downloading %s" % filename)
-        response = requests.get(url, stream=True)
-        total_length = response.headers.get('content-length')
-        if total_length is None:
-            f.write(response.content)
-        else:
-            dl = 0
-            total_length = int(total_length)
-            for data in response.iter_content(chunk_size=4096):
-                dl += len(data)
-                f.write(data)
-                done = int(50 * dl / total_length)
-                sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50-done)))
-                sys.stdout.flush()
-    print("\n")
-    return filepath
+def download_file(url):
+    get_response = requests.get(url,stream=True)
+    file_name  = url.split("/")[-1]
+    with open(file_name, 'wb') as f:
+        for chunk in get_response.iter_content(chunk_size=1024):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
+    return file_name
 
 
 def extract_frida_gadget(archive_path, arch):
@@ -161,8 +150,7 @@ def download_frida_gadget(arch):
         for asset in release["assets"]:
             if asset["name"] == "frida-gadget-{0}-android-{1}.so.xz".format(tag_name, arch_config[arch]):
                 frida_gadget_url = asset["browser_download_url"]
-                archive_path = download_file(
-                    frida_gadget_url, "firda-gadget-{0}-{1}.so.xz".format(tag_name, arch))
+                archive_path = download_file(frida_gadget_url)
                 return extract_frida_gadget(archive_path, arch)
 
 
@@ -243,7 +231,7 @@ def main():
 
     args = parser.parse_args()
     APK = "https://r2-static-assets.androidapksfree.com/sdata/3c84a5baa669a3bf57e63e2f516bf49c/com.zhiliaoapp.musically.go_v19.0.3-190003_Android-4.1.apk"
-    inputfile = download_file(APK, "tiktok.lite.apk")
+    inputfile = download_file(APK)
     outputfile = args.output
     keyalias = args.keyalias
     storepass = args.storepass
