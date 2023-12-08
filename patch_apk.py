@@ -29,7 +29,7 @@ def inject_frida_gadget(libpath):
 
 def create_temp_folder():
     delete_temp_folder()
-    os.mkdir(TEMP_FOLDER)
+    os.makedirs(TEMP_FOLDER, exist_ok=True)
 
 def is_tool_installed(name):
     return which(name) is not None
